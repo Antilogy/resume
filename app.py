@@ -1,13 +1,17 @@
 from flask import Flask, request,jsonify, render_template
 import os
-app = Flask(__name__, static_folder='../public/', static_url_path='/')
+app = Flask(__name__,)
 
 
 @app.route('/')
 def resume_home():
-    return app.send_static_file("index.html")
+    return app.send_static_file("/public/index.html")
 
 
+
+@app.route('/vue')
+def resume_vue_home():
+    return app.send_static_file("/public/vue-index.html")
 
 
 @app.route('/bank-app')
