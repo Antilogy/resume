@@ -1,10 +1,10 @@
 from flask import Flask, request,jsonify, render_template
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../public/', static_url_path='/')
 
 
 @app.route('/')
 def resume_home():
-    return render_template("index.html")
+    return app.send_static_file("index.html")
 
 
 

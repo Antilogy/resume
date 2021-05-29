@@ -26,6 +26,25 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+node_modules
+/dist
+.env.local
+.env.*.local 
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+#Editor directories
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
