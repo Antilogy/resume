@@ -11,7 +11,7 @@ def resume_home():
 
 @app.route('/vue')
 def resume_vue_home():
-    return app.send_static_file("vue-index.html")
+    return app.send_static_file("vue_index.html")
 
 
 @app.route('/bank-app')
