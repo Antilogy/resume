@@ -2,11 +2,11 @@ module.exports={
     //options....
     pages:{
         index:{
-            entry:'src/main.js',
+            entry:'src/assets/js/main.js',
             template:'public/index.html',
             filename:'index.html',
-            title: 'Home',
-            chunks:['chunk-vendors', 'chunk-common', 'index']
+            title: 'Home'
+            
         },
         vue_index:'src/main.js',
     }
