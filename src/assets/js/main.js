@@ -3,8 +3,8 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
+/*eslint no-undef: "off" */
 import '../css/main.css';
-import './breakpoints.min'
 import jQuery from './jquery.min'
 import browser from './browser.min'
 import breakpoints from './breakpoints.min'
