@@ -2,6 +2,9 @@
   "name": "vue-resume",
   "version": "0.1.0",
   "private": true,
+  "engines":{
+    "node":"16.1"
+  },
   "scripts": {
     "start": "gunicorn app:app",
     "serve": "vue-cli-service serve",
