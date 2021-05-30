@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "engines":{
-    "node":"16.1"
+    "node":"16.1",
+    "npm":"7.11.2"
   },
   "scripts": {
     "start": "gunicorn app:app",
@@ -37,7 +38,12 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-cond-assign": "off",
+      "no-useless-escape": "off",
+      "no-empty": "off",
+      "no-control-regex": "off"
+    }
   },
   "browserslist": [
     "> 1%",
