@@ -3,7 +3,16 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
-import '../css/main.css'
+import '../css/main.css';
+import './breakpoints.min'
+import jQuery from './jquery.min'
+import browser from './browser.min'
+import breakpoints from './breakpoints.min'
+
+
+
+
+
 
 
 (function($) {
@@ -204,7 +213,7 @@ import '../css/main.css'
 						$this.scrollLeft( $this.scrollLeft() + delta );
 
 				})
-				.on('mouseenter', '.forward, .backward', function(event) {
+				.on('mouseenter', '.forward, .backward', function() {
 
 					var $this = $(this),
 						$inner = $this.siblings('.inner'),
@@ -219,7 +228,7 @@ import '../css/main.css'
 						}, 10);
 
 				})
-				.on('mouseleave', '.forward, .backward', function(event) {
+				.on('mouseleave', '.forward, .backward', function() {
 
 					// Clear move interval.
 						clearInterval(this._gallery_moveIntervalId);
@@ -269,7 +278,7 @@ import '../css/main.css'
 						}, 600);
 
 				})
-				.on('click', '.modal', function(event) {
+				.on('click', '.modal', function() {
 
 					var $modal = $(this),
 						$modalImg = $modal.find('img');
@@ -322,7 +331,7 @@ import '../css/main.css'
 				})
 				.prepend('<div class="modal" tabIndex="-1"><div class="inner"><img src="" /></div></div>')
 					.find('img')
-						.on('load', function(event) {
+						.on('load', function() {
 
 							var $modalImg = $(this),
 								$modal = $modalImg.parents('.modal');
