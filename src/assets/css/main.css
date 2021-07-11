@@ -8610,6 +8610,13 @@ input, select, textarea {
 /*Custom code start
 */
 
+.image img{
+	width: auto !important;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain !important;
+	background: #ffffff;
+}
 
 * {box-sizing: border-box}
 .mySlides1, .mySlides2 {
@@ -8636,7 +8643,7 @@ img {vertical-align: middle;}
   width: auto;
   padding: 16px;
   margin-top: -22px;
-  color: white;
+  color: gray;
   font-weight: bold;
   font-size: 18px;
   transition: 0.6s ease;
