@@ -8,6 +8,7 @@ import '../css/main.css';
 import jQuery from './jquery.min'
 import browser from './browser.min'
 import breakpoints from './breakpoints.min'
+import slideshow from './slideshow'
 
 
 
@@ -21,6 +22,10 @@ import breakpoints from './breakpoints.min'
 		$body = $('body'),
 		$wrapper = $('#wrapper');
 
+	// Slideshow
+	$('.prev').on("click", slideshow.plusSlides(-1,0));
+	$('.next').on("click", slideshow.plusSlides(1,0));
+
 	// Breakpoints.
 		breakpoints({
 			xlarge:   [ '1281px',  '1680px' ],
@@ -33,6 +38,7 @@ import breakpoints from './breakpoints.min'
 
 	// Play initial animations on page load.
 		$window.on('load', function() {
+			slideshow.showSlides()
 			window.setTimeout(function() {
 				$body.removeClass('is-preload');
 			}, 100);
@@ -351,26 +357,7 @@ import breakpoints from './breakpoints.min'
 
 })(jQuery);
 
-
-/*Slideshow code*/
-
-var slideIndex = [1,1];
-var slideId = ["mySlides1", "mySlides2"]
+slideshow.showSlides(1,0);
 
 
-function plusSlides(n, no) {
-  showSlides(slideIndex[no] += n, no);
-}
-
-function showSlides(n, no) {
-  var i;
-  var x = document.getElementsByClassName(slideId[no]);
-  if (n > x.length) {slideIndex[no] = 1}    
-  if (n < 1) {slideIndex[no] = x.length}
-  for (i = 0; i < x.length; i++) {
-     x[i].style.display = "none";  
-  }
-  x[slideIndex[no]-1].style.display = "block";  
-}
-showSlides(1, 0);
 // showSlides(1, 1);
