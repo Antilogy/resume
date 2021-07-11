@@ -43,6 +43,7 @@ import * as slideshow from './slideshow'
 	// Play initial animations on page load.
 		$window.on('load', function() {
 			slideshow.showSlides(1,0);
+			slideshow.showSlides(1,1)
 			window.setTimeout(function() {
 				$body.removeClass('is-preload');
 			}, 100);
