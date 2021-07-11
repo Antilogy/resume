@@ -8618,11 +8618,14 @@ input, select, textarea {
 img {vertical-align: middle;}
 
 /* Slideshow container */
-
+.slideshow-container .image{
+	height:100%;
+}
 .slideshow-container .image img{
 	height:100%;
 	width: auto;
 	margin: 0 auto;
+	right: 0px;
 }
 
 /* Next & previous buttons */
