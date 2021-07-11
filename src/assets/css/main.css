@@ -8650,10 +8650,12 @@ img {vertical-align: middle;}
   border-radius: 0 3px 3px 0;
   user-select: none;
 }
-
+.prev{
+	float: left;
+}
 /* Position the "next button" to the right */
 .next {
-  right: 0;
+  float: right;
   border-radius: 3px 0 0 3px;
 }
 
