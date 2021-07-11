@@ -23,12 +23,19 @@ import * as slideshow from './slideshow'
 		$wrapper = $('#wrapper');
 
 	// Slideshow
-	$('.prev').on("click", function(){
+	$('.prev')[0].on("click", function(){
 		slideshow.plusSlides(-1,0);
 		});
-	$('.next').on("click", function(){
+	$('.next')[0].on("click", function(){
 		slideshow.plusSlides(1,0);
 		});
+	$('.prev')[1].on("click", function(){
+		slideshow.plusSlides(-1,1);
+		});
+	$('.next')[1].on("click", function(){
+		slideshow.plusSlides(1,1);
+		});	
+
 
 	// Breakpoints.
 		breakpoints({
