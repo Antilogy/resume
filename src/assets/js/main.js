@@ -356,8 +356,7 @@ import breakpoints from './breakpoints.min'
 
 var slideIndex = [1,1];
 var slideId = ["mySlides1", "mySlides2"]
-showSlides(1, 0);
-showSlides(1, 1);
+
 
 function plusSlides(n, no) {
   showSlides(slideIndex[no] += n, no);
@@ -373,3 +372,5 @@ function showSlides(n, no) {
   }
   x[slideIndex[no]-1].style.display = "block";  
 }
+showSlides(1, 0);
+// showSlides(1, 1);
