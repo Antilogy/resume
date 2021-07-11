@@ -4,11 +4,11 @@ var slideIndex = [1,1];
 var slideId = ["mySlides1", "mySlides2"]
 
 
-function plusSlides(n, no) {
+export function plusSlides(n, no) {
   showSlides(slideIndex[no] += n, no);
 }
 
-function showSlides(n, no) {
+export function showSlides(n, no) {
   var i;
   var x = document.getElementsByClassName(slideId[no]);
   if (n > x.length) {slideIndex[no] = 1}    

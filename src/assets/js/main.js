@@ -8,7 +8,7 @@ import '../css/main.css';
 import jQuery from './jquery.min'
 import browser from './browser.min'
 import breakpoints from './breakpoints.min'
-import slideshow from './slideshow'
+import * as slideshow from './slideshow'
 
 
 
@@ -38,7 +38,7 @@ import slideshow from './slideshow'
 
 	// Play initial animations on page load.
 		$window.on('load', function() {
-			slideshow.showSlides()
+			slideshow.showSlides();
 			window.setTimeout(function() {
 				$body.removeClass('is-preload');
 			}, 100);
