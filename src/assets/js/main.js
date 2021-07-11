@@ -23,16 +23,18 @@ import * as slideshow from './slideshow'
 		$wrapper = $('#wrapper');
 
 	// Slideshow
-	$('.prev')[0].on("click", function(){
+	var prev = $('.prev');
+	var next = $('.next');
+	prev.eq(0).on("click", function(){
 		slideshow.plusSlides(-1,0);
 		});
-	$('.next')[0].on("click", function(){
+	next.eq(0).on("click", function(){
 		slideshow.plusSlides(1,0);
 		});
-	$('.prev')[1].on("click", function(){
+	prev.eq(1).on("click", function(){
 		slideshow.plusSlides(-1,1);
 		});
-	$('.next')[1].on("click", function(){
+	next.eq(1).on("click", function(){
 		slideshow.plusSlides(1,1);
 		});	
 
