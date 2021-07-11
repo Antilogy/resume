@@ -6,6 +6,7 @@ var slideId = ["mySlides1", "mySlides2"]
 
 export function plusSlides(n, no) {
   showSlides(slideIndex[no] += n, no);
+  console.log("plusSlides")
 }
 
 export function showSlides(n, no) {

@@ -8623,7 +8623,7 @@ img {vertical-align: middle;}
 }
 .slideshow-container .image img{
 	height:100%;
-	width: auto;
+	width: auto !important;
 	margin: 0 auto;
 	right: 0px;
 }
