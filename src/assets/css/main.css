@@ -8612,14 +8612,17 @@ input, select, textarea {
 
 
 * {box-sizing: border-box}
-.mySlides1, .mySlides2 {display: none}
+.mySlides1, .mySlides2 {
+	display: none;
+}
 img {vertical-align: middle;}
 
 /* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
+
+.slideshow-container .image img{
+	height:100%;
+	width: auto;
+	margin: 0 auto;
 }
 
 /* Next & previous buttons */
