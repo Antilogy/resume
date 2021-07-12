@@ -8625,6 +8625,11 @@ input, select, textarea {
 img {vertical-align: middle;}
 
 /* Slideshow container */
+.slideshow-container{
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+}
 .slideshow-container .image{
 	height:100%;
 }
@@ -8638,8 +8643,8 @@ img {vertical-align: middle;}
 /* Next & previous buttons */
 .prev, .next {
   cursor: pointer;
-  position: absolute;
-  top: 50%;
+  
+  
   width: auto;
   padding: 16px;
   margin-top: -22px;
@@ -8656,7 +8661,6 @@ img {vertical-align: middle;}
 /* Position the "next button" to the right */
 .next {
   float: right;
-  border-radius: 3px 0 0 3px;
 }
 
 /* On hover, add a grey background color */
