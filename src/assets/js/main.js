@@ -37,6 +37,13 @@ import * as slideshow from './slideshow'
 	next.eq(1).on("click", function(){
 		slideshow.plusSlides(1,1);
 		});	
+	prev.eq(2).on("click", function(){
+		slideshow.plusSlides(-1,2);
+		});
+	next.eq(2).on("click", function(){
+		slideshow.plusSlides(1,2);
+		});	
+	
 
 
 	// Breakpoints.
@@ -52,7 +59,8 @@ import * as slideshow from './slideshow'
 	// Play initial animations on page load.
 		$window.on('load', function() {
 			slideshow.showSlides(1,0);
-			slideshow.showSlides(1,1)
+			slideshow.showSlides(1,1);
+			slideshow.showSlides(1,2);
 			window.setTimeout(function() {
 				$body.removeClass('is-preload');
 			}, 100);

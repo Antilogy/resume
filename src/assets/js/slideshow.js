@@ -1,7 +1,7 @@
 /*Slideshow code */
 
 var slideIndex = [1,1];
-var slideId = ["mySlides1", "mySlides2"]
+var slideId = ["mySlides1", "mySlides2", "mySlides3"]
 
 
 export function plusSlides(n, no) {
