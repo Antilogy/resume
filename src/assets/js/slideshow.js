@@ -1,6 +1,6 @@
 /*Slideshow code */
 
-var slideIndex = [1,1];
+var slideIndex = [1,1,1];
 var slideId = ["mySlides1", "mySlides2", "mySlides3"]
 
 
