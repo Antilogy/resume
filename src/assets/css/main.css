@@ -8677,4 +8677,8 @@ img {vertical-align: middle;}
 	.prev, .next {
 		width:8%;
 	}
+
+	.slideshow-container .image{
+		width: 90% !important;
+	}
 }
