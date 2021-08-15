@@ -18,6 +18,10 @@ def resume_vue_home():
 def resume_bank_app():
     return "Under construction!"
 
+@app.route('/split_check')
+def split_check():
+    return app.send_static_file("split_check.html")
+
 
 @app.route('/text_app')
 def text_app():
