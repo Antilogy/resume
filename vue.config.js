@@ -8,6 +8,12 @@ module.exports={
             title: 'Home'
             
         },
+        split_check:{
+            entry:'src/Pages/Split_Check/main.js',
+            template:'public/split_check.html',
+            filename: 'split_check.html',
+            title:'Split Check'
+        },
         vue_index:'src/main.js',
     }
 }
