@@ -24,9 +24,14 @@
     <!--Add button to add group -->
     <button v-on:click="addGroup()">Add a Group</button>
     <button v-on:click="deleteGroup()">Delete a Group</button>
-    <div v-for="(child) in children" :key="child.groupId">
-      <component :is="child" :key="child.name" :groupId="groups"></component>
+    <div class="groups">
+      <div v-for="(child, index) in children" :key="child.groupId">
+        <!-- Assign the value to a new object to prevent binding -->
+        <component :is="child" :key="child.name" :groupId="index"></component>
+      </div>
+
     </div>
+    
 </template>
 
 
@@ -40,12 +45,14 @@ export default {
     addGroup: function(){
       this.children.push(SplitCheckGroup),
       this.groups++,
-      console.log("Adding group")
+      console.log("Adding group"),
+      console.log("Group: " + this.groups)
     },
     deleteGroup: function(){
       this.children.pop(),
       this.groups--,
-      console.log("Deleting a group")
+      console.log("Deleting a group"),
+      console.log("Group: " + this.groups)
     },
   },
   
