@@ -9,19 +9,21 @@ import jQuery from './jquery.min'
 import browser from './browser.min'
 import breakpoints from './breakpoints.min'
 import * as slideshow from './slideshow'
+import Header from '../../components/Header.vue'
+import { createApp } from 'vue'
 
 
 
 
 
-
-
+createApp(Header).mount('#header');
 (function($) {
 
 	var	$window = $(window),
 		$body = $('body'),
 		$wrapper = $('#wrapper');
 
+	
 	// Slideshow
 	var prev = $('.prev');
 	var next = $('.next');
@@ -135,8 +137,8 @@ import * as slideshow from './slideshow'
 				})();
 
 	// Smooth scroll.
-		$('.smooth-scroll').scrolly();
-		$('.smooth-scroll-middle').scrolly({ anchor: 'middle' });
+		// $('.smooth-scroll').scrolly();
+		// $('.smooth-scroll-middle').scrolly({ anchor: 'middle' });
 
 	// Wrapper.
 		$wrapper.children()
