@@ -1,15 +1,24 @@
 <template>
-    <input v-model.number="itemPrice" placeholder="0" type="number">
+    <input v-model.number="itemPrice" placeholder="0" type="number" ref='item' @change="getItemPrice">
 </template>
 
 <script>
 export default{
     name: "Item",
-
+    props:{
+        id: Number,
+    },
     data(){
         return{
             itemPrice: 0,
-            id: 0
+            
+        }
+    },
+    methods:{
+        /**Returns the item Price */
+        getItemPrice: function(){
+            this.$emit('itemPriceEvent', this.itemPrice, this.id);
+            console.log("My item changed")
         }
     }
 }
