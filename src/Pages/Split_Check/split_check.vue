@@ -122,7 +122,8 @@ export default {
       basecost = (this.subtotal - itemcost)/total_people
       // calculate total cost per person in a group
       for (let i in this.groupList){
-        this.groupList[i].paymentPerMember = (group_costs[i]/this.groupList[i].groupSize) + basecost
+        totalcost = (group_costs[i]/this.groupList[i].groupSize) + basecost
+        this.groupList[i].paymentPerMember = totalcost * (1 + (this.tip/100) + (this.total-this.subtotal)/this.subtotal)  
       }
 
     }
