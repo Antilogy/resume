@@ -18,8 +18,8 @@
     <!-- Add button here to separate groups -->
 
     <div id='per_person'>
-      
-      <p>Per person: ${{total/group_size}}</p>
+      <!-- Tip is calculated before tax -->
+      <p>Per person: ${{total/group_size + (subtotal/group_size)*(tip/100)}}</p>
     </div>
     <!--Add button to add group -->
     <button v-on:click="addGroup()">Add a Group</button>
