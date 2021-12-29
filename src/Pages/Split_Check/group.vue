@@ -1,4 +1,5 @@
-<template>
+<template >
+    <div class = "group">
     <p>Group: {{groupId}}</p>
     <div><p>Group size is: {{groupSize}}</p><input v-model.number="groupSize" placeholder="0" type="number" @change="getGroupSize" ></div>
     <div><p>Payment Per Member: {{paymentPerMember.toFixed(2)}} </p></div>
@@ -7,6 +8,7 @@
     
     <div v-for="(child, index) in children" :key="child.id">
         <component :is="child" :key="child.id" :id="index" @itemPriceEvent="itemPriceEvent"></component>
+    </div>
     </div>
 </template>
 
@@ -64,3 +66,16 @@ export default{
 }
 
 </script>
+
+<style scoped>
+
+.group{
+    box-shadow: #59D2FE 0px 0px 0px 3px;
+    min-width:310px;
+    padding: 10px;
+    margin: 20px;
+}
+input{
+    
+}
+</style>

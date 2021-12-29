@@ -1,5 +1,5 @@
-<template>
-    <input v-model.number="itemPrice" placeholder="0" type="number" ref='item' @change="getItemPrice">
+<template >
+    <input class="item" v-model.number="itemPrice" placeholder="0" type="number" ref='item' @change="getItemPrice">
 </template>
 
 <script>
@@ -24,3 +24,10 @@ export default{
 }
 
 </script>
+
+<style scoped>
+.item{
+    box-shadow: #73FBD3 0px 0px 0px 3px;
+    text-align:right;
+}
+</style>

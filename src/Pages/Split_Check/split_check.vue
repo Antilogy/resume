@@ -1,4 +1,5 @@
 <template>
+  <div class="split_check">
     <div id='subtotal'>
       <input v-model.number="subtotal" placeholder="0" type="number">
       <p>Subtotal is: ${{subtotal}}</p>
@@ -35,6 +36,7 @@
 
     </div>
     
+  </div>
 </template>
 
 
@@ -149,3 +151,21 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.split_check{
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+}
+input{
+  text-align: right;
+}
+
+.groups{
+  display:flex;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+</style>
