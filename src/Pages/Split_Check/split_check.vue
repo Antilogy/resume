@@ -20,7 +20,7 @@
 
     <div id='per_person'>
       <!-- Tip is calculated before tax -->
-      <p>Per person: ${{total/group_size + (subtotal/group_size)*(tip/100)}}</p>
+      <p>Per person: ${{(total/group_size + (subtotal/group_size)*(tip/100)).toFixed(2)}}</p>
     </div>
     <!--Add button to add group -->
     <button v-on:click="addGroup()">Add a Group</button>
@@ -138,11 +138,11 @@ export default {
       paymentPerMember: [],
       groupList: [],
       groups: 0,
-      subtotal: 0,
-      total: 0,
-      tip: 0,
-      group_size: 0,
-      per_person: 0,
+      subtotal: "",
+      total: "",
+      tip: "",
+      group_size: "",
+      per_person: "",
 
     }
   }
@@ -153,9 +153,10 @@ export default {
 </script>
 
 <style scoped>
+/* Color theme from https://coolors.co/73fbd3-44e5e7-59d2fe-4a8fe7-5c7aff */
 .split_check{
   margin: auto;
-  width: 50%;
+  width: 79%;
   border: 3px solid green;
   padding: 10px;
 }
@@ -168,4 +169,11 @@ input{
   flex-wrap: wrap;
   overflow-x: auto;
 }
+
+@media only screen and (max-width: 500px){
+  .split_check{
+    width: 79%;
+  }
+}
+
 </style>

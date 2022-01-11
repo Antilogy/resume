@@ -1,10 +1,10 @@
 <template >
     <div class = "group">
-    <p>Group: {{groupId}}</p>
+    <p>Group: {{groupId+1}}</p>
     <div><p>Group size is: {{groupSize}}</p><input v-model.number="groupSize" placeholder="0" type="number" @change="getGroupSize" ></div>
-    <div><p>Payment Per Member: {{paymentPerMember.toFixed(2)}} </p></div>
+    <div><p>Payment Per Member: ${{paymentPerMember.toFixed(2)}} </p></div>
     <p>Items</p>
-    <button v-on:click="addItem()">+</button>Add Item<button v-on:click="removeItem()">-</button>
+    <div class="group_bottom"><button v-on:click="addItem()">+</button>Add Item<button v-on:click="removeItem()">-</button></div>
     
     <div v-for="(child, index) in children" :key="child.id">
         <component :is="child" :key="child.id" :id="index" @itemPriceEvent="itemPriceEvent"></component>
@@ -31,7 +31,7 @@ export default{
         return{
             children: [],
             count: 0,
-            groupSize: 0,
+            groupSize: "",
             
             
         }
@@ -76,6 +76,13 @@ export default{
     margin: 20px;
 }
 input{
-    
+    text-align: right;
+    width: 100%;
+}
+
+.group_bottom{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
 }
 </style>

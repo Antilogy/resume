@@ -10,7 +10,7 @@ export default{
     },
     data(){
         return{
-            itemPrice: 0,
+            itemPrice: "",
             
         }
     },
@@ -29,5 +29,6 @@ export default{
 .item{
     box-shadow: #73FBD3 0px 0px 0px 3px;
     text-align:right;
+    margin-top: 15px;
 }
 </style>
