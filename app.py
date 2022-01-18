@@ -20,7 +20,7 @@ def resume_bank_app():
 
 @application.route('/split_check')
 def split_check():
-    return app.send_static_file("split_check.html")
+    return application.send_static_file("split_check.html")
 
 
 @application.route('/text_app')
