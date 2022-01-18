@@ -15,7 +15,7 @@ def resume_vue_home():
 
 
 @application.route('/bank-app')
-def resume_bank_app():
+def bank_app():
     return "Under construction!"
 
 @application.route('/split_check')
