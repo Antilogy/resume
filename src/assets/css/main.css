@@ -5800,7 +5800,8 @@ input, select, textarea {
 		}
 
 	.spotlight .image {
-		background-color: rgba(0, 0, 0, 0.125);
+		background-color: #ffffff;
+		margin-top:1px;
 	}
 
 	.spotlight.invert .image {
