@@ -48,12 +48,12 @@ def save_ip_info():
     user_agent = parse(request.headers.get('User-Agent'))
     visitors_table = os.environ.get('DATABASE_VISITORS_TABLE')
     #connect to database
-    url = os.environ.get('DATABASE_URL')
+    url = os.environ.get('RDS_HOSTNAME')
     conn = psycopg2.connect(
-        host=os.environ.get('DATABASE_URL'),
-        database = os.environ.get('DATABASE'),
-        user=os.environ.get('DATABASE_USER'),
-        password=os.environ.get('DATABASE_PASSWORD')
+        host=os.environ.get('RDS_HOSTNAME'),
+        database = os.environ.get('RDS_DB_NAME'),
+        user=os.environ.get('RDS_USERNAME'),
+        password=os.environ.get('RDS_PASSWORD')
     )
     #make request to ipinfo
     ipinfo_token = os.environ.get('IPINFO_TOKEN')
