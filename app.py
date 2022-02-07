@@ -3,10 +3,22 @@ from flask import Flask, request,jsonify, render_template
 from dotenv import load_dotenv
 from user_agents import parse
 from contextlib import suppress
-import os, psycopg2, requests, ipinfo, asyncio
+from flask_mysqldb import MySQL
+import os, requests, ipinfo
 application = Flask(__name__,static_folder='dist', static_url_path='/')
 dotenv_path = os.path.join(dirname(__file__), '.env')
 load_dotenv(dotenv_path=dotenv_path)
+
+application.config['MYSQL_HOST'] = os.environ.get('RDS_HOSTNAME')
+application.config['MYSQL_USER'] = os.environ.get('RDS_USERNAME')
+application.config['MYSQL_PASSWORD'] = os.environ.get('RDS_PASSWORD')
+application.config['MYSQL_DB'] = os.environ.get('RDS_DB_NAME')
+
+mysql = MySQL(application)
+
+
+
+
 #only save ip address info for clients that visit the homepage
 @application.route('/')
 def resume_home():
@@ -48,17 +60,23 @@ def save_ip_info():
     user_agent = parse(request.headers.get('User-Agent'))
     visitors_table = os.environ.get('DATABASE_VISITORS_TABLE')
     #connect to database
+    #use postgres
     url = os.environ.get('RDS_HOSTNAME')
-    conn = psycopg2.connect(
-        host=os.environ.get('RDS_HOSTNAME'),
-        database = os.environ.get('RDS_DB_NAME'),
-        user=os.environ.get('RDS_USERNAME'),
-        password=os.environ.get('RDS_PASSWORD')
-    )
+    # conn = psycopg2.connect(
+    #     host=os.environ.get('RDS_HOSTNAME'),
+    #     database = os.environ.get('RDS_DB_NAME'),
+    #     user=os.environ.get('RDS_USERNAME'),
+    #     password=os.environ.get('RDS_PASSWORD')
+    # )
+    
+    #using mysql
+    # engine = create_engine(f"mysql://{os.environ.get('RDS_USERNAME')}:{os.environ.get('RDS_PASSWORD')}@{os.environ.get('RDS_HOSTNAME')}/{os.environ.get('RDS_DB_NAME')}",
+    #                         encoding='utf8', echo=False)
     #make request to ipinfo
     ipinfo_token = os.environ.get('IPINFO_TOKEN')
     handler = ipinfo.getHandler(ipinfo_token)
     details = handler.getDetails(request.remote_addr)
+    language = request.accept_languages.best
     
     # update default info with ipinfo
     with suppress(AttributeError):
@@ -72,28 +90,54 @@ def save_ip_info():
     with suppress(AttributeError):
         timezone = details.timezone
     # end of ipinfo update
-
+    data = {"ip": request.remote_addr,
+            "brow": user_agent.browser.family,
+            "brow_ver": user_agent.browser.version_string,
+            "language": language,
+            "country": country,
+            "region":region,
+            "city":city,
+            "postal":postal,
+            "timezone":timezone
+            }
 
     #upload data
-    cursor = conn.cursor()
-    insert_query = f"""INSERT INTO {visitors_table} (ip_address, browser, brow_version, brow_language, country, region, city, postal_code, timezone) VALUES(%s,%s,%s, %s, %s, %s, %s, %s, %s)"""
-    language = request.accept_languages.best
+    #using sqlalchemy
+    # with engine.connect() as con:
+    #     # cursor = conn.cursor()
+    #     insert_query = text(f"""INSERT INTO {visitors_table} (ip_address, browser, brow_version, brow_language, country, region, city, postal_code, timezone) VALUES(:ip,:brow,:brow_ver, :language, :country, :region, :city, :postal, :timezone)""")
+    #     con.execute(insert_query,data)
     
+    # using mysql
+    with mysql.connection.cursor() as cur:
+     
+        cur.execute(f"""INSERT INTO {visitors_table} (ip_address, browser, brow_version, brow_language, country, region, city, postal_code, timezone) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+        (request.remote_addr,
+        user_agent.browser.family,
+        user_agent.browser.version_string,
+        language,
+        country,
+        region,
+        city,
+        postal,
+        timezone))
+        mysql.connection.commit()
+
     
     
 
 
-    record_to_insert = (request.remote_addr, user_agent.browser.family, user_agent.browser.version_string, language, 
-    country,
-    region,
-    city,
-    postal,
-    timezone
-    )
-    cursor.execute(insert_query, record_to_insert)
-    conn.commit()
-    cursor.close()
-    conn.close()
+    # record_to_insert = (request.remote_addr, user_agent.browser.family, user_agent.browser.version_string, language, 
+    # country,
+    # region,
+    # city,
+    # postal,
+    # timezone
+    # )
+    # cursor.execute(insert_query, record_to_insert)
+    # conn.commit()
+    # cursor.close()
+    # conn.close()
     return
 
 
