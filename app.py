@@ -4,29 +4,38 @@ from dotenv import load_dotenv
 from user_agents import parse
 from contextlib import suppress
 from flask_mysqldb import MySQL
-import os, requests, ipinfo, logging
+import os, requests, ipinfo, logging.config,logging.handlers, sys
 application = Flask(__name__,static_folder='dist', static_url_path='/')
 dotenv_path = os.path.join(dirname(__file__), '.env')
 load_dotenv(dotenv_path=dotenv_path)
 #setup logging
-logging = {
+
+logging_config = {
         'version':1,
         'disable_existing_loggers':False,
+        'formatters':{
+            'detailed':{
+                'class': 'logging.Formatter',
+                'format':'%(asctime)s-%(levelname)s-[%(filename)s:%(lineno)s] %(message)s',
+                'datefmt':'%m-%d-%Y:%H:%M:%S',
+            }
+        },
         'handlers':{
             'file':{
                 'level':'WARNING',
-                'class':'logging.Filehandler',
-                'filename':'/opt/python/log/flask.log',
-                'format':'%(asctime)s-%(levelname)s-2t[%(filename)s:%(lineno)s] %(message)s',
-                'datefmt':'%m-%d-%Y:%H:%M:%S'
+                'class':'logging.FileHandler',
+                'filename':'resume.log',
+                'mode':'a',
+                'formatter':'detailed',
+                
 
             },
             'console':{
                 'level':'DEBUG',
                 'class':'logging.StreamHandler',
                 'stream': 'ext://sys.stdout',
-                'format':'%(asctime)s-%(levelname)s-2t[%(filename)s:%(lineno)s] %(message)s',
-                'datefmt':'%m-%d-%Y:%H:%M:%S'
+                'formatter':'detailed'
+                
             }
         },
         'loggers':{
@@ -40,6 +49,13 @@ logging = {
             }
         },
     }
+temp_file = logging_config['handlers']['file']['filename']
+if(not sys.gettrace()):
+    #assume code doesn't run on debugger, its on production
+    logging_config['handlers']['file']['filename'] = '/tmp/resume.log'
+logging.config.dictConfig(logging_config)
+
+
 #end of setup logging
 application.config['MYSQL_HOST'] = os.environ.get('RDS_HOSTNAME')
 application.config['MYSQL_USER'] = os.environ.get('RDS_USERNAME')
@@ -49,7 +65,8 @@ mysql = None
 try:
     mysql = MySQL(application)
 except Exception as ex:
-    print(ex)
+    logging.exception("Couldn't create mysql connection.")
+    logging.info(f"RDS_DB_NAME: {os.environ.get('RDS_DB_NAME')}")
 
 
 
@@ -157,7 +174,7 @@ def save_ip_info():
                 timezone))
                 mysql.connection.commit()
     except Exception as ex:
-         print("Couldn't insert into db")
+         logging.exception("Couldn't insert into db")
 
     
     # using mysql
