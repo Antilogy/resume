@@ -4,17 +4,52 @@ from dotenv import load_dotenv
 from user_agents import parse
 from contextlib import suppress
 from flask_mysqldb import MySQL
-import os, requests, ipinfo
+import os, requests, ipinfo, logging
 application = Flask(__name__,static_folder='dist', static_url_path='/')
 dotenv_path = os.path.join(dirname(__file__), '.env')
 load_dotenv(dotenv_path=dotenv_path)
+#setup logging
+logging = {
+        'version':1,
+        'disable_existing_loggers':False,
+        'handlers':{
+            'file':{
+                'level':'WARNING',
+                'class':'logging.Filehandler',
+                'filename':'/opt/python/log/flask.log',
+                'format':'%(asctime)s-%(levelname)s-2t[%(filename)s:%(lineno)s] %(message)s',
+                'datefmt':'%m-%d-%Y:%H:%M:%S'
 
+            },
+            'console':{
+                'level':'DEBUG',
+                'class':'logging.StreamHandler',
+                'stream': 'ext://sys.stdout',
+                'format':'%(asctime)s-%(levelname)s-2t[%(filename)s:%(lineno)s] %(message)s',
+                'datefmt':'%m-%d-%Y:%H:%M:%S'
+            }
+        },
+        'loggers':{
+            'dev':{
+                'handlers':['file'],
+                'propagate':True,
+            },
+            'prod':{
+                'handlers':['console'],
+                'propagate':True,
+            }
+        },
+    }
+#end of setup logging
 application.config['MYSQL_HOST'] = os.environ.get('RDS_HOSTNAME')
 application.config['MYSQL_USER'] = os.environ.get('RDS_USERNAME')
 application.config['MYSQL_PASSWORD'] = os.environ.get('RDS_PASSWORD')
 application.config['MYSQL_DB'] = os.environ.get('RDS_DB_NAME')
-
-mysql = MySQL(application)
+mysql = None
+try:
+    mysql = MySQL(application)
+except Exception as ex:
+    print(ex)
 
 
 
@@ -107,21 +142,26 @@ def save_ip_info():
     #     # cursor = conn.cursor()
     #     insert_query = text(f"""INSERT INTO {visitors_table} (ip_address, browser, brow_version, brow_language, country, region, city, postal_code, timezone) VALUES(:ip,:brow,:brow_ver, :language, :country, :region, :city, :postal, :timezone)""")
     #     con.execute(insert_query,data)
+    try:
+        with mysql.connection.cursor() as cur:
+            
+                cur.execute(f"""INSERT INTO {visitors_table} (ip_address, browser, brow_version, brow_language, country, region, city, postal_code, timezone) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                (request.remote_addr,
+                user_agent.browser.family,
+                user_agent.browser.version_string,
+                language,
+                country,
+                region,
+                city,
+                postal,
+                timezone))
+                mysql.connection.commit()
+    except Exception as ex:
+         print("Couldn't insert into db")
+
     
     # using mysql
-    with mysql.connection.cursor() as cur:
-     
-        cur.execute(f"""INSERT INTO {visitors_table} (ip_address, browser, brow_version, brow_language, country, region, city, postal_code, timezone) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
-        (request.remote_addr,
-        user_agent.browser.family,
-        user_agent.browser.version_string,
-        language,
-        country,
-        region,
-        city,
-        postal,
-        timezone))
-        mysql.connection.commit()
+    
 
     
     
