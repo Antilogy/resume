@@ -9,7 +9,7 @@ application = Flask(__name__,static_folder='dist', static_url_path='/')
 dotenv_path = os.path.join(dirname(__file__), '.env')
 load_dotenv(dotenv_path=dotenv_path)
 #setup logging
-
+logger = None
 logging_config = {
         'version':1,
         'disable_existing_loggers':False,
@@ -40,20 +40,28 @@ logging_config = {
         },
         'loggers':{
             'dev':{
-                'handlers':['file'],
+                'handlers':['console'],
                 'propagate':True,
             },
             'prod':{
-                'handlers':['console'],
+                'handlers':['file'],
                 'propagate':True,
             }
         },
     }
 temp_file = logging_config['handlers']['file']['filename']
+    #select loggers
 if(not sys.gettrace()):
     #assume code doesn't run on debugger, its on production
     logging_config['handlers']['file']['filename'] = '/tmp/resume.log'
-logging.config.dictConfig(logging_config)
+    logging.config.dictConfig(logging_config)
+    logger = logging.getLogger('prod')
+
+else:
+    logging.config.dictConfig(logging_config)
+    logger = logging.getLogger('dev')
+
+
 
 
 #end of setup logging
@@ -65,8 +73,8 @@ mysql = None
 try:
     mysql = MySQL(application)
 except Exception as ex:
-    logging.exception("Couldn't create mysql connection.")
-    logging.info(f"RDS_DB_NAME: {os.environ.get('RDS_DB_NAME')}")
+    logger.exception("Couldn't create mysql connection.")
+    logger.info(f"RDS_DB_NAME: {os.environ.get('RDS_DB_NAME')}")
 
 
 
@@ -128,10 +136,11 @@ def save_ip_info():
     ipinfo_token = os.environ.get('IPINFO_TOKEN')
     handler = ipinfo.getHandler(ipinfo_token)
     request_ip = request.access_route[-1]
+    logger.warning(request.access_route)
     try:
         details = handler.getDetails(request_ip)
     except Exception as ex:
-        logging.exception("Couldn't connect to ipinfo service. Please Investigate.")
+        logger.exception("Couldn't connect to ipinfo service. Please Investigate.")
     language = request.accept_languages.best
     
     # update default info with ipinfo
@@ -178,7 +187,7 @@ def save_ip_info():
                 timezone))
                 mysql.connection.commit()
     except Exception as ex:
-         logging.exception("Couldn't insert into db")
+         logger.exception("Couldn't insert into db")
 
     
     # using mysql
