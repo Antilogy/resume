@@ -107,7 +107,7 @@ def save_ip_info():
     city = "None"
     postal = "None"
     timezone = "None"
-
+    details = None
 
     user_agent = parse(request.headers.get('User-Agent'))
     visitors_table = os.environ.get('DATABASE_VISITORS_TABLE')
