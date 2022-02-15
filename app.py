@@ -127,7 +127,10 @@ def save_ip_info():
     #make request to ipinfo
     ipinfo_token = os.environ.get('IPINFO_TOKEN')
     handler = ipinfo.getHandler(ipinfo_token)
-    details = handler.getDetails(request.remote_addr)
+    try:
+        details = handler.getDetails(request.remote_addr)
+    except Exception as ex:
+        logging.exception("Couldn't connect to ipinfo service. Please Investigate.")
     language = request.accept_languages.best
     
     # update default info with ipinfo
