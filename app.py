@@ -135,8 +135,8 @@ def save_ip_info():
     #make request to ipinfo
     ipinfo_token = os.environ.get('IPINFO_TOKEN')
     handler = ipinfo.getHandler(ipinfo_token)
-    request_ip = request.access_route[-1]
-    logger.warning(request.access_route)
+    request_ip = request.access_route[0]
+    # logger.warning(request.access_route)
     try:
         details = handler.getDetails(request_ip)
     except Exception as ex:
