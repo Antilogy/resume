@@ -127,8 +127,9 @@ def save_ip_info():
     #make request to ipinfo
     ipinfo_token = os.environ.get('IPINFO_TOKEN')
     handler = ipinfo.getHandler(ipinfo_token)
+    request_ip = request.access_route[-1]
     try:
-        details = handler.getDetails(request.remote_addr)
+        details = handler.getDetails(request_ip)
     except Exception as ex:
         logging.exception("Couldn't connect to ipinfo service. Please Investigate.")
     language = request.accept_languages.best
@@ -145,7 +146,7 @@ def save_ip_info():
     with suppress(AttributeError):
         timezone = details.timezone
     # end of ipinfo update
-    data = {"ip": request.remote_addr,
+    data = {"ip": request_ip,
             "brow": user_agent.browser.family,
             "brow_ver": user_agent.browser.version_string,
             "language": language,
@@ -166,7 +167,7 @@ def save_ip_info():
         with mysql.connection.cursor() as cur:
             
                 cur.execute(f"""INSERT INTO {visitors_table} (ip_address, browser, brow_version, brow_language, country, region, city, postal_code, timezone) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
-                (request.remote_addr,
+                (request_ip,
                 user_agent.browser.family,
                 user_agent.browser.version_string,
                 language,
