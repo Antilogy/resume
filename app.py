@@ -115,6 +115,7 @@ def save_ip_info():
     city = "None"
     postal = "None"
     timezone = "None"
+    loc = "None"
     details = None
 
     user_agent = parse(request.headers.get('User-Agent'))
@@ -136,6 +137,12 @@ def save_ip_info():
     ipinfo_token = os.environ.get('IPINFO_TOKEN')
     handler = ipinfo.getHandler(ipinfo_token)
     request_ip = request.access_route[0]
+    #only insert ip that are public
+    ip_parts = request_ip.split(".")
+
+    if(ip_parts[0]=="172" and (16<=int(ip_parts[1]) <=31) ):
+        return
+
     # logger.warning(request.access_route)
     try:
         details = handler.getDetails(request_ip)
@@ -154,6 +161,8 @@ def save_ip_info():
         postal = details.postal
     with suppress(AttributeError):
         timezone = details.timezone
+    with suppress(AttributeError):
+        loc = details.loc
     # end of ipinfo update
     data = {"ip": request_ip,
             "brow": user_agent.browser.family,
@@ -175,7 +184,7 @@ def save_ip_info():
     try:
         with mysql.connection.cursor() as cur:
             
-                cur.execute(f"""INSERT INTO {visitors_table} (ip_address, browser, brow_version, brow_language, country, region, city, postal_code, timezone) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                cur.execute(f"""INSERT INTO {visitors_table} (ip_address, browser, brow_version, brow_language, country, region, city, postal_code, timezone, loc) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
                 (request_ip,
                 user_agent.browser.family,
                 user_agent.browser.version_string,
@@ -184,7 +193,8 @@ def save_ip_info():
                 region,
                 city,
                 postal,
-                timezone))
+                timezone,
+                loc))
                 mysql.connection.commit()
     except Exception as ex:
          logger.exception("Couldn't insert into db")
