@@ -1,26 +1,60 @@
 <template>
   <div class="split_check">
-    <div id='subtotal'>
-      <input v-model.number="subtotal" placeholder="0" type="number">
-      <p>Subtotal is: ${{subtotal}}</p>
-    </div>
-    <div id='total'>
-      <input v-model.number="total" placeholder="0" type="number">
-      <p>Total is: ${{total}}</p>
-    </div>
-    <div id='tip'>
-      <input v-model.number="tip" placeholder="0" type="number">
-      <p>Tip is: {{tip}}%</p>
-    </div>
-    <div id='group_size'>
-      <input v-model.number="group_size" placeholder="0" type="number">
-      <p>Group size is: {{group_size}}</p>
-    </div>
-    <!-- Add button here to separate groups -->
+    <div id='split_intro'>
+        <div id='instructions'>
+          <p>Welcome to the SplitCheck app. 
+            <br>
+            Step 1. Fill in the fields on the left based on the receipt at the end of a restaurant visit. Tips are usually 15% or 18% of the final order.
+            <br>
+            Step 2. Select Before or After if the receipt shows the tip is applied before the total or after.
+            <br>
+            Step 3. If you need to split special items like beer because not everyone drinks, then create two groups. The first group has the people that didn't drink while the second group has the cost of the item and the number of people that shared that cost.
+          
+          </p>
+        </div>
 
-    <div id='per_person'>
-      <!-- Tip is calculated before tax -->
-      <p>Per person: ${{(total/group_size + (subtotal/group_size)*(tip/100)).toFixed(2)}}</p>
+      <div id='calc_group'>
+        <div id='subtotal'>
+          <input v-model.number="subtotal" placeholder="0" type="number">
+          <p>Subtotal is: ${{subtotal}}</p>
+        </div>
+        <div id='total'>
+          <input v-model.number="total" placeholder="0" type="number">
+          <p>Total is: ${{total}}</p>
+        </div>
+        <div id='tip'>
+          <input v-model.number="tip" placeholder="0" type="number">
+          <p>Tip is: {{tip}}%</p>
+          <br>
+          <p>{{before_after}} Total Tip Amount${{(tip_amount).toFixed(2)}}</p>
+          <div id='before_after_tip'>
+            <input type="radio" id="before_radio" value="Before" v-model="before_after" v-on:change="updateTipUsed()">
+            <label for="before_radio">Before</label>
+
+            <input type="radio" id="after_radio" value="After" v-model="before_after" v-on:change="updateTipUsed()">
+            <label for="after_radio">After</label>
+              
+          </div>
+        </div>
+        <div id='group_size'>
+          <input v-model.number="group_size" placeholder="0" type="number">
+          <p>Group size is: {{group_size}}</p>
+        </div>
+        
+        <!-- Add button here to separate groups -->
+
+        <div id='per_person'>
+          <!-- Tip is calculated before tax -->
+          <p>Per person: ${{((total + tip_amount)/group_size).toFixed(2)}}</p>
+        </div>
+        <div id='full_cost'>
+          <!-- need to implicitly convert total to a number since it defaults to empty string -->
+          <p>Full Cost: ${{(total*1 + tip_amount).toFixed(3)}}</p>
+          </div>
+      </div>
+
+      
+
     </div>
     <!--Add button to add group -->
     <button v-on:click="addGroup()">Add a Group</button>
@@ -93,7 +127,16 @@ export default {
       this.groupList[groupId].removeItem()
       this.updateSplitCheck()
     },
-    
+    /**Update tip used based on whether its applied to subtotal or total */
+    updateTipUsed: function(){
+      if(this.before_after === "Before"){
+        this.tip_amount = this.subtotal*(this.tip/100)
+      } else{
+        this.tip_amount = this.total*(this.tip/100)
+      }
+      
+    },
+
     /**Updates the total cost per member for each group */
     updateSplitCheck: function(){
 
@@ -125,7 +168,13 @@ export default {
       // calculate total cost per person in a group
       for (let i in this.groupList){
         totalcost = (group_costs[i]/this.groupList[i].groupSize) + basecost
-        this.groupList[i].paymentPerMember = totalcost * (1 + (this.tip/100) + (this.total-this.subtotal)/this.subtotal)  
+        if (this.before_after === "Before"){
+          this.groupList[i].paymentPerMember = totalcost * (1 + (this.tip/100) + (this.total-this.subtotal)/this.subtotal)
+        } else{
+          // (totalcost + tax) *(1+tip) 
+          this.groupList[i].paymentPerMember = totalcost * (1 + (this.total-this.subtotal)/this.subtotal) * (1+(this.tip/100) )
+        }
+          
       }
 
     }
@@ -141,8 +190,10 @@ export default {
       subtotal: "",
       total: "",
       tip: "",
+      tip_amount: 0,
+      before_after: "After",
       group_size: "",
-      per_person: "",
+      per_person: 0,
 
     }
   }
@@ -160,10 +211,12 @@ export default {
   border: 3px solid green;
   padding: 10px;
 }
-input{
+input,select{
   text-align: right;
 }
-
+select{
+  width: 13%;
+}
 .groups{
   display:flex;
   flex-wrap: wrap;
@@ -173,6 +226,9 @@ input{
 @media only screen and (max-width: 500px){
   .split_check{
     width: 79%;
+  }
+  select{
+    width:43%
   }
 }
 

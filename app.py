@@ -139,10 +139,13 @@ def save_ip_info():
     request_ip = request.access_route[0]
     #only insert ip that are public
     ip_parts = request_ip.split(".")
+    try:
 
-    if(ip_parts[0]=="172" and (16<=int(ip_parts[1]) <=31) ):
+        if(ip_parts[0]=="172" and (16<=int(ip_parts[1]) <=31) ):
+            return
+    except Exception as ex:
+        logger.exception(f"There is an invalid IP request. IP detected: {request_ip}")
         return
-
     # logger.warning(request.access_route)
     try:
         details = handler.getDetails(request_ip)
