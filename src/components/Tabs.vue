@@ -102,9 +102,9 @@ ul.main_tabs li:hover{
 
 
 .tab_title{
-    width: 10%;
+    width: 15%;
     display: flex;
-    justify-content: center;
+    justify-content: left;
 }
 
 .tab_data{
