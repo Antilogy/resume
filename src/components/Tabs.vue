@@ -7,7 +7,7 @@
     </ul>
     <div class="tabs_group" >
         <div v-for="(child, index) in children" :key="child" class="tab_item">
-            <div class="tab_title">{{child.split(":")[0]}}</div><div class="tab_data" :style="{width:(child_size[index]/100 * 90).toFixed(2).toString() + '%'}"><p>{{child_size[index]}}%</p></div>
+            <div class="tab_title">{{child.split(":")[0]}}</div><div class="tab_data" :style="{width:(child_size[index]/100 * 90).toString() + '%'}"><p>{{child_size[index].toFixed(2)}}%</p></div>
         </div>
     </div>
     
@@ -120,7 +120,12 @@ ul.main_tabs li:hover{
     flex-direction: row-reverse;
     overflow: visible;
     position: relative;
-    left: 60px;
+    left: 90px;
     margin-bottom: 0px;
+}
+@media only screen and (max-width: 1680px){
+    .tab_data p{
+        left: 60px
+    }
 }
 </style>

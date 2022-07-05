@@ -19,6 +19,10 @@ npm run build
 ```
 npm run lint
 ```
-
+### Deploye to AWS Beanstalk
+```
+eb deploy 
+```
+This will deploy using the latest git commits in your local repository.
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
