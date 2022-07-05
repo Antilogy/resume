@@ -13,7 +13,6 @@
 
 
 <script>
-import {ref, onServerPrefetch} from 'vue';
 import Tabs from '../../components/Tabs.vue';
 import Tab from '../../components/Tab.vue';
 const apiEndpoint = 'http://python3-7.eba-cp2mtsp6.us-east-1.elasticbeanstalk.com/api_v1/'
