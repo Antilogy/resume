@@ -1,13 +1,15 @@
 from posixpath import dirname
-from flask import Flask, request,jsonify, render_template
+from flask import Flask, request,jsonify, render_template, Blueprint
 from dotenv import load_dotenv
 from user_agents import parse
 from contextlib import suppress
 from flask_mysqldb import MySQL
+from api.api import api_bp
 import os, requests, ipinfo, logging.config,logging.handlers, sys
 application = Flask(__name__,static_folder='dist', static_url_path='/')
 dotenv_path = os.path.join(dirname(__file__), '.env')
 load_dotenv(dotenv_path=dotenv_path)
+application.register_blueprint(api_bp, url_prefix='/api_v1')
 #setup logging
 logger = None
 logging_config = {
@@ -72,6 +74,7 @@ application.config['MYSQL_DB'] = os.environ.get('RDS_DB_NAME')
 mysql = None
 try:
     mysql = MySQL(application)
+    application.mysql = mysql
 except Exception as ex:
     logger.exception("Couldn't create mysql connection.")
     logger.info(f"RDS_DB_NAME: {os.environ.get('RDS_DB_NAME')}")
@@ -100,7 +103,9 @@ def bank_app():
 def split_check():
     return application.send_static_file("split_check.html")
 
-
+@application.route('/visitors')
+def visitors():
+    return application.send_static_file('visitors.html')
 @application.route('/text_app')
 def text_app():
     return "Under construction!"

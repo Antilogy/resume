@@ -14,6 +14,12 @@ module.exports={
             filename: 'split_check.html',
             title:'Split Check'
         },
+        visitors:{
+            entry:'src/Pages/Visitors/main.js',
+            template:'public/visitors.html',
+            filename: 'visitors.html',
+            title:'Visitors'
+        },
         vue_index:'src/main.js',
     }
 }
