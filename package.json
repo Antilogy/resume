@@ -1,6 +1,6 @@
 {
   "name": "vue-resume",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "node": "16.1",
@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "amd-loader": "^0.0.8",
+    "base32-encode": "^2.0.0",
     "core-js": "^3.6.5",
+    "qrcode": "^1.5.1",
     "vue": "^3.0.0"
   },
   "devDependencies": {

@@ -1,5 +1,28 @@
 <template>
     <div  class="visitors">
+        <div id='instructions'>
+          <p>Welcome to the Visitors app. 
+            <br>
+            Directions: Click on a tab to show browser information from visitors that land on the homepage.
+            <br>
+            No tabs are selected by default.
+            <br>
+            How it works: 
+            <br>
+            Step 1.The python backend sends the  IP address from the request to ipinfo.io 
+            <br>
+            Step 2. Then the following attributes are saved in a mysql table:
+            <br>
+            <ul>
+                <div v-for="(item,index) in ipinfo_list" :key="index">
+                <li><a>{{item}}</a></li>
+                </div>
+            </ul>
+            
+            
+          
+          </p>
+        </div>
         <Tabs v-bind:data_list="visitor_json" >
             <Tab title='Browser' >Browser</Tab>
             <Tab title='Language' >Language</Tab>
@@ -46,7 +69,11 @@ export default{
         // return{
         //     visitor_json
         // };
-        
+        const ipinfo_list = ['IP Address', 'Browser Family', 'Browser Version',
+         'Language', 'Country', 'Region', 'City', 'Postal code', 'Timezone']
+        return{
+            ipinfo_list
+        }
     },
     
     methods:{
@@ -81,5 +108,8 @@ export default{
     flex-direction: column;
     width: 50%;
     margin: 0 auto;
+}
+a{
+    text-decoration: none;
 }
 </style>

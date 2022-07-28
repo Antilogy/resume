@@ -20,6 +20,12 @@ module.exports={
             filename: 'visitors.html',
             title:'Visitors'
         },
+        qr_code:{
+            entry:'src/Pages/QRCode/main.js',
+            template:'public/qr_code.html',
+            filename: 'qr_code.html',
+            title:'QR Code'
+        },
         vue_index:'src/main.js',
     }
 }

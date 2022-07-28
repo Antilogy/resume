@@ -110,6 +110,10 @@ def visitors():
 def text_app():
     return "Under construction!"
 
+@application.route('/qr_code')
+def qr_code():
+    return application.send_static_file('qr_code.html')
+
 #save client data
 
 def save_ip_info():
