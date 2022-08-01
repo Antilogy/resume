@@ -4,7 +4,8 @@
     <li><a>WebApps &#9662;</a>
         <ul class="dropdown">
             <li><a href="/split_check">Split Check</a></li>
-            <li><a href="/visitors">Visitor Info</a></li>   
+            <li><a href="/visitors">Visitor Info</a></li> 
+            <li><a href="/qr_code">QR Code</a></li>  
         </ul>
     </li>
     <li><a href="https://github.com/Antilogy?tab=repositories">Github Projects</a></li>

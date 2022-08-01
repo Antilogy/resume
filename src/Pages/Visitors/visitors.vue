@@ -15,7 +15,7 @@
             <br>
             <ul>
                 <div v-for="(item,index) in ipinfo_list" :key="index">
-                <li><a>{{item}}</a></li>
+                <li><p>{{item}}</p></li>
                 </div>
             </ul>
             
@@ -111,5 +111,8 @@ export default{
 }
 a{
     text-decoration: none;
+}
+li p{
+    margin-bottom:0px;
 }
 </style>
