@@ -38,7 +38,20 @@
 <script>
 import Tabs from '../../components/Tabs.vue';
 import Tab from '../../components/Tab.vue';
-const apiEndpoint = 'http://python3-7.eba-cp2mtsp6.us-east-1.elasticbeanstalk.com/api_v1/'
+
+
+var apiEndpoint = 'http://spielbm.com/api_v1/'
+try{
+    const path = require ("path");
+
+    require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+    apiEndpoint = 'http://' + process.env.VUE_APP_API_HOST + '/api_v1/';
+} catch (error){
+    console.log("Running in production.")
+}
+
+
+
 export default{
     name: 'App',
     components:{
