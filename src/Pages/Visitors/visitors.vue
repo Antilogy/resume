@@ -40,13 +40,13 @@ import Tabs from '../../components/Tabs.vue';
 import Tab from '../../components/Tab.vue';
 
 
-var apiEndpoint = 'http://spielbm.com/api_v1/'
+var apiEndpoint = 'https://spielbm.com/api_v1/'
 let hostname = window.location.host;
 try{
     const path = require ("path");
 
-    require('dotenv').config({ path: path.resolve(__dirname, '.env') });
-    apiEndpoint = 'http://' + hostname + '/api_v1/';
+    
+    apiEndpoint = 'https://' + hostname + '/api_v1/';
     
 } catch (error){
     console.log("Running in production.")
@@ -107,7 +107,11 @@ export default{
     created(){
         fetch(apiEndpoint + 'visitor_info')
             .then(response => response.json())
-            .then(data=> (this.visitor_json["data"] = data));
+            .then(data=> (this.visitor_json["data"] = data))
+            .catch(error=>{
+                console.log("Couldn't fetch data. Please make sure you are using HTTPS, your corporate network isn't blocking connections, and try again.");
+                alert("Couldn't fetch data. Please make sure you are using HTTPS, your corporate network isn't blocking connections, and try again.")
+            });
     },
     data(){
         return{

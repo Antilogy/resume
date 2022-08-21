@@ -237,5 +237,14 @@ def save_ip_info():
 
 if __name__ =="__main__":
     # port = int(os.environ.get("PORT",8000))
-    application.run(port = 5000, debug = True)
+    # if its on prod,
+    if(not sys.gettrace()):
+        application.run(port = 5000, debug = True)
+    # otherwise use the local cert
+    else:
+        # ssl_context = (crt_file, private_key_file)
+        crt_file = os.path.join("C:\\", "Users", os.environ.get("LOCAL_USER"), "Certificates", os.environ.get("LOCAL_CERT"))
+        private_key_file = os.path.join("C:\\", "Users", os.environ.get("LOCAL_USER"), "Certificates", os.environ.get("LOCAL_KEY"))
+        application.run(port = 5000, debug = True, ssl_context=(crt_file, private_key_file))
+    
 
