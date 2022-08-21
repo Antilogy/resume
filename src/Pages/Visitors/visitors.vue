@@ -41,11 +41,13 @@ import Tab from '../../components/Tab.vue';
 
 
 var apiEndpoint = 'http://spielbm.com/api_v1/'
+let hostname = window.location.host;
 try{
     const path = require ("path");
 
     require('dotenv').config({ path: path.resolve(__dirname, '.env') });
-    apiEndpoint = 'http://' + process.env.VUE_APP_API_HOST + '/api_v1/';
+    apiEndpoint = 'http://' + hostname + '/api_v1/';
+    
 } catch (error){
     console.log("Running in production.")
 }
