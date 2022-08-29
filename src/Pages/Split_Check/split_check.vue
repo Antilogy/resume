@@ -15,19 +15,20 @@
 
       <div id='calc_group'>
         <div id='subtotal'>
-          <input v-model.number="subtotal" placeholder="0" type="number">
+          <input v-model.number="subtotal" placeholder="0" type="number" v-on:change="updateTipUsed()">
           <p>Subtotal is: ${{subtotal}}</p>
         </div>
         <div id='total'>
-          <input v-model.number="total" placeholder="0" type="number">
+          <input v-model.number="total" placeholder="0" type="number" v-on:change="updateTipUsed()">
           <p>Total is: ${{total}}</p>
         </div>
         <div id='tip'>
-          <input v-model.number="tip" placeholder="0" type="number">
+          <input v-model.number="tip" placeholder="0" type="number" v-on:change="updateTipUsed()">
           <p>Tip is: {{tip}}%</p>
           <br>
           <p>{{before_after}} Total Tip Amount${{(tip_amount).toFixed(2)}}</p>
           <div id='before_after_tip'>
+            <!-- https://github.com/vuedx/languagetools/issues/198 its a known issue with v-model and radio/checkboxes -->
             <input type="radio" id="before_radio" value="Before" v-model="before_after" v-on:change="updateTipUsed()">
             <label for="before_radio">Before</label>
 
@@ -49,7 +50,7 @@
         </div>
         <div id='full_cost'>
           <!-- need to implicitly convert total to a number since it defaults to empty string -->
-          <p>Full Cost: ${{(total*1 + tip_amount).toFixed(3)}}</p>
+          <p>Full Cost: ${{((total*1) + tip_amount).toFixed(3)}}</p>
           </div>
       </div>
 
@@ -134,12 +135,11 @@ export default {
       } else{
         this.tip_amount = this.total*(this.tip/100)
       }
-      
+      this.updateSplitCheck()
     },
 
     /**Updates the total cost per member for each group */
     updateSplitCheck: function(){
-
       if(this.groupList.length<1){
         return
       }
