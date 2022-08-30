@@ -175,6 +175,7 @@ export default{
             if(display_flag){
                 
                 popup.style.display = 'block';
+                popup.style.transform = 'translate(-50%, -50%)';
             }
             else{
                 popup.style.display = 'none';
@@ -235,7 +236,7 @@ input{
     z-index: 999;
     left: 50%;
     top: 50%;
-    transform: translate(50%, 50%);
+    transform: translate(-50%, -50%);
     font-weight: bold;
 }
 .div_header{
