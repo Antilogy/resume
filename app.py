@@ -255,7 +255,7 @@ def log_webapp_visitor(webapp_name):
             ip))
             mysql.connection.commit()
     except Exception as ex:
-        logger.exeception("Couldn't record webapp_name visitors.")
+        logger.exception("Couldn't record webapp_name visitors.")
 
 
 if __name__ =="__main__":
