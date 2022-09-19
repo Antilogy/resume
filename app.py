@@ -72,6 +72,15 @@ application.config['MYSQL_USER'] = os.environ.get('RDS_USERNAME')
 application.config['MYSQL_PASSWORD'] = os.environ.get('RDS_PASSWORD')
 application.config['MYSQL_DB'] = os.environ.get('RDS_DB_NAME')
 mysql = None
+webapp_visitors = os.environ.get('DATABASE_WEBAPP_VISITORS_TABLE')
+webapp_comments = os.environ.get('DATABASE_WEBAPP_COMMENTS_TABLE')
+#mysql statements
+insert_webapp_visitor = f'INSERT INTO {webapp_visitors} (webapp_name, ip_address) VALUES(%s,%s)'
+insert_webapp_comment = f'INSERT INTO {webapp_comments} (ip_address, webapp_name, comment) VALUES(%s, %s)'
+
+#end of mysql
+
+
 try:
     mysql = MySQL(application)
     application.mysql = mysql
@@ -101,10 +110,12 @@ def bank_app():
 
 @application.route('/split_check')
 def split_check():
+    log_webapp_visitor('split_check')
     return application.send_static_file("split_check.html")
 
 @application.route('/visitors')
 def visitors():
+    log_webapp_visitor('visitors')
     return application.send_static_file('visitors.html')
 @application.route('/text_app')
 def text_app():
@@ -112,6 +123,7 @@ def text_app():
 
 @application.route('/qr_code')
 def qr_code():
+    log_webapp_visitor('qr_code')
     return application.send_static_file('qr_code.html')
 
 #save client data
@@ -232,7 +244,18 @@ def save_ip_info():
     # conn.close()
     return
 
+def log_webapp_visitor(webapp_name):
 
+    ip = request.access_route[0]
+    # webapp_name = request.endpoint
+    try:
+        with mysql.connection.cursor() as cur:
+            cur.execute(insert_webapp_visitor,
+            (webapp_name,
+            ip))
+            mysql.connection.commit()
+    except Exception as ex:
+        logger.exeception("Couldn't record webapp_name visitors.")
 
 
 if __name__ =="__main__":
