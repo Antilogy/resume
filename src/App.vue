@@ -5,12 +5,19 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import  {Authenticator}  from "@aws-amplify/ui-vue";
 
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import {defineComponent} from "vue";
+// Amplify.configure(awsconfig);
+// Auth.configure(awsconfig);
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    HelloWorld,
+    // Authenticator
+  },
 }
 </script>
 

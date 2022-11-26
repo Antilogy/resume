@@ -10,6 +10,7 @@ import browser from './browser.min'
 import breakpoints from './breakpoints.min'
 import * as slideshow from './slideshow'
 import Header from '../../components/Header.vue'
+import AuthComp from '../../components/AuthComp.vue'
 import { createApp } from 'vue'
 
 
@@ -17,6 +18,7 @@ import { createApp } from 'vue'
 
 
 createApp(Header).mount('#header');
+createApp(AuthComp).mount('#authcomp');
 (function($) {
 
 	var	$window = $(window),

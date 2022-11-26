@@ -146,7 +146,9 @@ export default {
       
 
       // Grab total before tax
-      var basecost,totalcost,itemcost =0
+      var basecost = 0
+      var totalcost = 0 
+      var itemcost = 0
       var total_people = 0
       var group_costs = []
 

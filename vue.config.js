@@ -26,6 +26,11 @@ module.exports={
             filename: 'qr_code.html',
             title:'QR Code'
         },
-        vue_index:'src/main.js',
+        vue_index:{
+            entry:'src/main.js',
+            template: 'public/vue_index.html',
+            filename: 'vue_index.html',
+            title: 'Vue Home'
+        }
     }
 }
