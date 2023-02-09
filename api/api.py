@@ -41,7 +41,7 @@ def visitor():
                     union
                     (select coalesce(browser,'No Browser') as ip_info, count(*) as total
                     from {visitors_table} 
-                    where timestamp >= (Date(now()) - interval 7 day) group by browser order by total DESC limit 100)
+                    where timestamp >= (Date('2023/02/08') - interval 7 day) group by browser order by total DESC limit 100)
                     union
                     (select 'Language', 0
                     from {visitors_table} 
@@ -49,7 +49,7 @@ def visitor():
                     union
                     (select coalesce(brow_language, 'No Language') as ip_info, count(*) as total 
                     from {visitors_table}
-                    where timestamp >= Date(now()) - interval 7 day group by brow_language order by total DESC limit 100)
+                    where timestamp >= Date('2023/02/08') - interval 7 day group by brow_language order by total DESC limit 100)
                     union 
                     (select 'Country', 0
                     from {visitors_table}
@@ -57,7 +57,7 @@ def visitor():
                     union
                     (select coalesce(country, 'No Country') as ip_info, count(*) as total
                     from {visitors_table} 
-                    where timestamp >= Date(now()) - interval 7 day group by country order by total DESC limit 100)""",
+                    where timestamp >= Date('2023/02/08')- interval 7 day group by country order by total DESC limit 100)""",
                     )
                     my_rows = cur.fetchall()
                     #identify the browser

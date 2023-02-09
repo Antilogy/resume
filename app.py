@@ -94,7 +94,7 @@ except Exception as ex:
 #only save ip address info for clients that visit the homepage
 @application.route('/')
 def resume_home():
-    save_ip_info()
+    # save_ip_info()
     return application.send_static_file("index.html")
 
 
@@ -233,7 +233,7 @@ def save_ip_info():
 
     # record_to_insert = (request.remote_addr, user_agent.browser.family, user_agent.browser.version_string, language, 
     # country,
-    # region,
+    # region1,
     # city,
     # postal,
     # timezone
